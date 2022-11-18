@@ -2,10 +2,11 @@
 
 namespace L37sg0\HelloWorld\Controller\Index;
 
+use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Action\Context;
 use Magento\Framework\View\Result\PageFactory;
 
-class Test extends \Magento\Framework\App\Action\Action
+class Test extends Action
 {
     protected $_pageFactory;
 

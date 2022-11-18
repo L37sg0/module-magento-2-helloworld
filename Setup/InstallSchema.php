@@ -2,17 +2,22 @@
 
 namespace L37sg0\HelloWorld\Setup;
 
+use Magento\Framework\DB\Adapter\AdapterInterface;
 use Magento\Framework\DB\Ddl\Table;
+use Magento\Framework\Setup\InstallSchemaInterface;
 use Magento\Framework\Setup\ModuleContextInterface;
 use Magento\Framework\Setup\SchemaSetupInterface;
 
-class InstallSchema implements \Magento\Framework\Setup\InstallSchemaInterface
+class InstallSchema implements InstallSchemaInterface
 {
     public function install(SchemaSetupInterface $setup, ModuleContextInterface $context)
     {
         $tableName = 'l37sg0_helloworld_post';
+
         $installer = $setup;
+
         $installer->startSetup();
+
         if (!$installer->tableExists($tableName)) {
             $table = $installer->getConnection()->newTable(
                 $installer->getTable($tableName)
@@ -84,7 +89,19 @@ class InstallSchema implements \Magento\Framework\Setup\InstallSchemaInterface
             )->setComment('Post Table');
 
             $installer->getConnection()->createTable($table);
-//            $installer->getConnection()->addIndex($tableName, $indexName, $fields)
+
+            $installer->getConnection()->addIndex(
+                $installer->getTable($tableName),
+                $setup->getIdxName(
+                    $installer->getTable($tableName),
+                    ['name', 'url_key', 'post_content', 'tags', 'featured_image'],
+                    AdapterInterface::INDEX_TYPE_FULLTEXT
+                ),
+                ['name', 'url_key', 'post_content', 'tags', 'featured_image'],
+                AdapterInterface::INDEX_TYPE_FULLTEXT
+            );
         }
+
+        $installer->endSetup();
     }
 }
