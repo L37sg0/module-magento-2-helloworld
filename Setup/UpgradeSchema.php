@@ -2,6 +2,7 @@
 
 namespace L37sg0\HelloWorld\Setup;
 
+use L37sg0\HelloWorld\Model\ResourceModel\Post as PostResourceModel;
 use Magento\Framework\DB\Adapter\AdapterInterface;
 use Magento\Framework\DB\Ddl\Table;
 use Magento\Framework\Setup\ModuleContextInterface;
@@ -16,7 +17,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
      */
     public function upgrade(SchemaSetupInterface $setup, ModuleContextInterface $context)
     {
-        $tableName = 'l37sg0_helloworld_post';
+        $tableName = PostResourceModel::TABLE_NAME;
 
         $installer = $setup;
 
