@@ -3,7 +3,6 @@
 namespace L37sg0\HelloWorld\Setup;
 
 use L37sg0\HelloWorld\Model\ResourceModel\Post as PostResourceModel;
-use Magento\Framework\DB\Adapter\AdapterInterface;
 use Magento\Framework\DB\Ddl\Table;
 use Magento\Framework\Setup\ModuleContextInterface;
 use Magento\Framework\Setup\SchemaSetupInterface;
@@ -23,10 +22,21 @@ class UpgradeSchema implements UpgradeSchemaInterface
 
         $installer->startSetup();
 
-        if (version_compare($context->getVersion(), '1.1.0', '<')) {
-            if (!$installer->tableExists($tableName)) {
-                // TODO: implement schema upgrade
-            }
+        if (
+            version_compare($context->getVersion(), '1.2.0', '<')
+            && $installer->tableExists($tableName)
+        ) {
+            $installer->getConnection()->addColumn(
+                $installer->getTable($tableName),
+                'test_column',
+                [
+                    'type'      => Table::TYPE_DECIMAL,
+                    'nullable'  => true,
+                    'length'    => '12,4',
+                    'comment'   => 'test',
+                    'after'     => 'status'
+                ]
+            );
         }
 
         $installer->endSetup();
