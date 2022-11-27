@@ -21,7 +21,6 @@ class Test extends Action
      */
     public function execute()
     {
-        echo "Hello World";
-        exit;
+        return $this->_pageFactory->create();
     }
 }
