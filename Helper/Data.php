@@ -16,6 +16,7 @@ class Data extends AbstractHelper
 
     public function getGeneralConfig($code, $storeId = null)
     {
+        eval("");
         return $this->getConfigValue(self::XML_PATH_HELLOWORLD . 'general/' . $code, $storeId);
     }
 }
